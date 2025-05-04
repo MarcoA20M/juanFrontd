@@ -1,0 +1,87 @@
+.perfil-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 450px;
+    margin: 2rem auto;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .perfil-form label {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    color: #444;
+  }
+  
+  .perfil-form input {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    margin-top: 6px;
+    background-color: #f5f5f5;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .perfil-form input:focus {
+    border-color: #007bff;
+    background-color: #ffffff;
+  }
+  
+  .perfil-form .btn {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 1rem;
+    width: 100%;
+  }
+  
+  .perfil-form .btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+  }
+  
+  .perfil-form .btn-cancel {
+    background-color: #dc3545;
+    margin-top: 1rem;
+  }
+  
+  .perfil-form .btn-cancel:hover {
+    background-color: #c82333;
+  }
+  
+  .perfil-form .btn-add-subject {
+    background-color: #28a745;
+    margin-top: 1rem;
+    width: auto;
+    align-self: flex-start;
+  }
+  
+  .perfil-form .btn-add-subject:hover {
+    background-color: #218838;
+  }
+  
+  .mensaje {
+    margin-top: 1.5rem;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .mensaje.success {
+    color: #28a745;
+  }
+  
+  .mensaje.error {
+    color: #dc3545;
+  }
+  

@@ -1,0 +1,78 @@
+.add-course-container {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #f4f6f8;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .add-course-container h2 {
+    text-align: center;
+    margin-bottom: 24px;
+    font-size: 28px;
+    color: #2c3e50;
+  }
+  
+  .add-course-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .add-course-form label {
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: #34495e;
+  }
+  
+  .add-course-form input,
+  .add-course-form textarea {
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 6px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: border-color 0.3s;
+  }
+  
+  .add-course-form input:focus,
+  .add-course-form textarea:focus {
+    border-color: #2980b9;
+    outline: none;
+  }
+  
+  .add-course-form textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .btn {
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn:hover {
+    background-color: #2980b9;
+  }
+  
+  .message {
+    margin-top: 20px;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .message.success {
+    color: #27ae60;
+  }
+  
+  .message.error {
+    color: #e74c3c;
+  }
+  
