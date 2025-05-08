@@ -85,3 +85,60 @@
     color: #dc3545;
   }
   
+  .app-header {
+    background: linear-gradient(135deg, #3a7bd5, #00d2ff);
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .app-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(to right, #ffffff, #f3f3f3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .nav-menu {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  
+
+  .nav-link {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+  }
+
+  .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.3);
+    font-weight: 600;
+  }

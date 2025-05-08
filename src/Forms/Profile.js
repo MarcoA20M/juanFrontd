@@ -97,14 +97,18 @@ const Profile = () => {
 
   return (
     <div className="home-container">
-      <header className="header">
-        <h1>Mi Perfil</h1>
-        <button 
-          onClick={handleEditToggle}
-          className={`btn ${editing ? "btn-cancel" : "btn-edit"}`}
-        >
-          {editing ? "Cancelar" : "Editar Perfil"}
-        </button>
+      <header className="app-header">
+        <div className="header-content">
+          <div className="logo-container">
+            <h1 className="app-title">EduPlataforma</h1>
+          </div>
+          <nav className="nav-menu">
+          <li><a href="/homeTeacher" className="nav-link">Inicio</a></li>
+          <li><a href="/grades" className="nav-link">Calificaciones</a></li>
+          <li><a href="/profile" className="nav-link">Perfil</a></li>
+           
+          </nav>
+        </div>
       </header>
       <main className="main-content">
         <form className="perfil-form" onSubmit={handleSubmit}>

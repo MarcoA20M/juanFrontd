@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getStudentCourses, searchStudentCourses } from "../services/courseService";
+import { getStudentCoursesP } from "../services/courseService"; // método para cursos del profesor
 import "../Styles/Home.css";
 
-const Home = () => {
+const TeacherHome = () => {
   const [subjects, setSubjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,29 +12,28 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchStudentCourses = async () => {
+    const fetchTeacherCourses = async () => {
       try {
         const token = localStorage.getItem('token');
         if (!token) {
           throw new Error('No autenticado. Redirigiendo a login...');
         }
 
-        const data = await getStudentCourses();
-        console.log("Datos recibidos:", data);
-        
-        // Normalización de datos (por si el backend devuelve objeto o array)
+        const data = await getStudentCoursesP();
+        console.log("Cursos del profesor:", data);
+
         const coursesArray = Array.isArray(data) ? data : data ? [data] : [];
-        
+
         setSubjects(coursesArray);
         setFilteredSubjects(coursesArray);
-        
+
         if (coursesArray.length === 0) {
-          console.warn("El usuario no tiene materias asignadas");
+          console.warn("No hay cursos asignados al profesor");
         }
       } catch (err) {
-        console.error("Error al cargar materias:", err);
+        console.error("Error al cargar cursos:", err);
         setError(err.response?.data?.message || err.message);
-        
+
         if (err.response?.status === 401 || err.message.includes('No autenticado')) {
           localStorage.removeItem('token');
           navigate('/login');
@@ -44,31 +43,23 @@ const Home = () => {
       }
     };
 
-    fetchStudentCourses();
+    fetchTeacherCourses();
   }, [navigate]);
 
-  const handleSearch = async (e) => {
+  const handleSearch = (e) => {
     e.preventDefault();
-    setLoading(true);
-    
-    try {
-      if (!searchQuery.trim()) {
-        setFilteredSubjects(subjects);
-        return;
-      }
-
-      const results = await searchStudentCourses(searchQuery);
-      setFilteredSubjects(Array.isArray(results) ? results : results ? [results] : []);
-    } catch (err) {
-      console.error("Error en búsqueda:", err);
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    if (!searchQuery.trim()) {
+      setFilteredSubjects(subjects);
+    } else {
+      const filtered = subjects.filter(subject =>
+        subject.name?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredSubjects(filtered);
     }
   };
 
   const handleEnter = (subjectId) => {
-    navigate(`/materia/${subjectId}`);
+    navigate(`/materias/${subjectId}`);
   };
 
   const handleRefresh = () => {
@@ -76,6 +67,10 @@ const Home = () => {
     setError(null);
     setSearchQuery("");
     window.location.reload();
+  };
+
+  const handleCreateSubject = () => {
+    navigate("/agregar-materia"); // Aquí se redirige al formulario de creación
   };
 
   if (loading) {
@@ -104,8 +99,8 @@ const Home = () => {
   return (
     <div className="home-container">
       <nav className="navbar">
-        <div className="nav-brand">Plataforma Educativa</div>
-        
+        <div className="nav-brand">Panel del Profesor</div>
+
         <div className="search-container">
           <form onSubmit={handleSearch}>
             <input
@@ -116,22 +111,17 @@ const Home = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               disabled={loading}
             />
-            <button 
-              type="submit" 
-              className="search-button"
-              disabled={loading}
-            >
+            <button type="submit" className="search-button" disabled={loading}>
               {loading ? 'Buscando...' : 'Buscar'}
             </button>
           </form>
         </div>
-        
+
         <ul className="nav-menu">
-          <li><a href="/home" className="nav-link active">Inicio</a></li>
-          <li><a href="/grades" className="nav-link">Calificaciones</a></li>
+          <li><a href="/homeTeacher" className="nav-link active">Inicio</a></li>
           <li><a href="/profile" className="nav-link">Perfil</a></li>
           <li>
-            <button 
+            <button
               onClick={() => {
                 localStorage.removeItem('token');
                 navigate('/login');
@@ -145,24 +135,24 @@ const Home = () => {
       </nav>
 
       <header className="header">
-        <h1>Mis Materias</h1>
-        <p className="subtitle">Bienvenido a tu panel de aprendizaje</p>
+        <h1>Mis Materias Asignadas</h1>
+        <p className="subtitle">Bienvenido a tu panel docente</p>
+        <button className="create-subject-button" onClick={handleCreateSubject}>
+          Crear nueva materia
+        </button>
       </header>
 
       <main className="main-content">
         {filteredSubjects.length === 0 ? (
           <div className="empty-state">
-            <img 
-              src="/images/no-courses.svg" 
-              alt="No hay materias" 
+            <img
+              src="/images/no-courses.svg"
+              alt="No hay materias"
               className="empty-image"
             />
             <h3>No tienes materias asignadas</h3>
-            <p>Actualmente no estás inscrito en ninguna materia.</p>
-            <button 
-              onClick={handleRefresh}
-              className="primary-button"
-            >
+            <p>No se encontraron materias a tu cargo.</p>
+            <button onClick={handleRefresh} className="primary-button">
               Actualizar
             </button>
           </div>
@@ -173,25 +163,20 @@ const Home = () => {
               return (
                 <div className="subject-card" key={subjectId}>
                   <div className="subject-header">
-                    <h3>{subject.name || 'Nombre no disponible'}</h3>
+                    <h3>{subject.name || 'Sin nombre'}</h3>
                     <span className="subject-code">{subject.code || 'N/A'}</span>
                   </div>
-                  
+
                   <p className="subject-description">
-                    {subject.description || 'Descripción no disponible'}
+                    {subject.description || 'Sin descripción'}
                   </p>
-                  
+
                   <div className="subject-footer">
                     <div className="teacher-info">
-                      <span className="label">Profesor:</span>
-                      {subject.teacher ? (
-                        <span>{subject.teacher.firstName} {subject.teacher.lastName}</span>
-                      ) : (
-                        <span>No asignado</span>
-                      )}
+                      <span className="label">Tú eres el profesor</span>
                     </div>
-                    
-                    <button 
+
+                    <button
                       onClick={() => handleEnter(subjectId)}
                       className="enter-button"
                     >
@@ -211,7 +196,7 @@ const Home = () => {
           <div className="footer-links">
             <a href="/about">Acerca de</a>
             <a href="/contact">Contacto</a>
-            <a href="/privacy">Políticas de privacidad</a>
+            <a href="/privacy">Privacidad</a>
           </div>
         </div>
       </footer>
@@ -219,4 +204,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default TeacherHome;

@@ -25,7 +25,7 @@ const Login = () => {
 
             // Redirigir según el rol del usuario
             if (response.role === "TEACHER") {
-                navigate("/home");
+                navigate("/homeTeacher");
             } else {
                 navigate("/home");
             }
